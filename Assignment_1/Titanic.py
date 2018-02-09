@@ -1,5 +1,6 @@
 import csv
 
+
 class Passenger(object):
     def __init__(self, id, surname, pclass, survived, sex):
         self.id = id
@@ -33,10 +34,13 @@ def make_passengers():
     passengers = []
     with open('./Titanic.csv', 'r') as csvfile:
         titanic_reader = csv.reader(csvfile)
+        next(titanic_reader)
         for row in titanic_reader:
             id = int(row[idi])
             surname = row[namei].split(',')[0]
-            pclass = {'1st' : 1, '2nd' : 2, '3rd' : 3}[row[pclassi]]
+            if row[pclassi] == '*':
+                continue
+            pclass = {'1st': 1, '2nd': 2, '3rd': 3}[row[pclassi]]
             survived = int(row[survivedi])
             sex = int(row[sexcodei])
             passengers.append(Passenger(id, surname, pclass, survived, sex))
@@ -46,3 +50,8 @@ def make_passengers():
 class Titanic(object):
     def __init__(self):
         self.passengers = make_passengers()
+
+# Testing
+# if __name__ == "__main__":
+#     for p in make_passengers():
+#         print(p)
